@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "com.example.laptoploan.app-debug-56:/drawable_placeholder_scan.xml.flat",
+        "source": "com.example.laptoploan.app-main-58:/drawable/placeholder_scan.xml"
+    },
+    {
+        "merged": "com.example.laptoploan.app-debug-56:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.example.laptoploan.app-main-58:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.example.laptoploan.app-debug-56:/drawable_placeholder_school_logo.xml.flat",
+        "source": "com.example.laptoploan.app-main-58:/drawable/placeholder_school_logo.xml"
+    },
+    {
+        "merged": "com.example.laptoploan.app-debug-56:/drawable_placeholder_user_orange.xml.flat",
+        "source": "com.example.laptoploan.app-main-58:/drawable/placeholder_user_orange.xml"
+    },
+    {
+        "merged": "com.example.laptoploan.app-debug-56:/drawable_placeholder_laptop.xml.flat",
+        "source": "com.example.laptoploan.app-main-58:/drawable/placeholder_laptop.xml"
+    }
+]

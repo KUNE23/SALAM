@@ -1,0 +1,8 @@
+R_DEF: Internal format may change without notice
+local
+drawable ic_launcher_foreground
+drawable placeholder_laptop
+drawable placeholder_scan
+drawable placeholder_school_logo
+drawable placeholder_user_orange
+style Theme.SALAM

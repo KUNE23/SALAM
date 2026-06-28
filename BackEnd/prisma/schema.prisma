@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  SARPRAS
+  SISWA
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum LaptopStatus {
+  AVAILABLE
+  BORROWED
+  MAINTENANCE
+  LOST
+}
+
+enum LoanStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  BORROWED
+  RETURNED
+  OVERDUE
+  CANCELLED
+}
+
+enum NotificationType {
+  INFO
+  WARNING
+  SUCCESS
+  DANGER
+}
+
+model User {
+  id               String         @id @default(cuid())
+  name             String
+  email            String         @unique
+  password         String
+  role             Role
+  status           UserStatus     @default(ACTIVE)
+  avatarUrl        String?
+  nisn             String?        @unique
+  className        String?
+  major            String?
+  employeeNumber   String?
+  refreshTokenHash String?
+  loans            Loan[]
+  notifications    Notification[]
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+model Laptop {
+  id           String       @id @default(cuid())
+  brand        String
+  series       String
+  code         String       @unique
+  ram          String?
+  storage      String?
+  completeness String?
+  photoUrl     String?
+  status       LaptopStatus @default(AVAILABLE)
+  loans        Loan[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+model Loan {
+  id             String     @id @default(cuid())
+  userId         String
+  laptopId       String
+  requestDate    DateTime   @default(now())
+  startTime      DateTime?
+  returnDeadline DateTime?
+  approvedAt     DateTime?
+  rejectedAt     DateTime?
+  returnedAt     DateTime?
+  status         LoanStatus @default(PENDING)
+  rejectReason   String?
+  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  laptop         Laptop     @relation(fields: [laptopId], references: [id], onDelete: Restrict)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  @@index([userId, status])
+  @@index([laptopId, status])
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String?
+  title     String
+  message   String
+  type      NotificationType @default(INFO)
+  isRead    Boolean          @default(false)
+  user      User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+}
+
+model Setting {
+  id          String   @id @default(cuid())
+  appName     String   @default("SALAM PEMINJAMAN LAPTOP")
+  openTime    String   @default("08:00")
+  closeTime   String   @default("16:00")
+  maxLoanDays Int      @default(7)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model LaptopCategory {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  description String?
+  unitCount   Int        @default(0)
+  status      UserStatus @default(ACTIVE)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
